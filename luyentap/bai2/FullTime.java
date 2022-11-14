@@ -7,8 +7,8 @@ public class FullTime extends Employee {
 
     }
 
-    public FullTime(String name, int age, String gender, double salary, double heso) {
-        super(name, age, gender, salary);
+    public FullTime(String name, int age, String gender,double heso) {
+        super(name, age, gender);
         this.heso = heso;
     }
 
@@ -22,7 +22,14 @@ public class FullTime extends Employee {
     }
 
     @Override
-    public double getSalary() {
+    public double Salary() {
         return heso * 5000000;
+    }
+
+    @Override
+    public String toString() {
+        return "FullTime{" +
+                "heso=" + heso +
+                '}' + super.toString();
     }
 }

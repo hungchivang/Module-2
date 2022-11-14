@@ -7,12 +7,8 @@ public class PartTIme extends Employee {
 
     }
 
-    public PartTIme(double sobuoi) {
-        this.sobuoi = sobuoi;
-    }
-
-    public PartTIme(String name, int age, String gender, double salary, double sobuoi) {
-        super(name, age, gender, salary);
+    public PartTIme(String name, int age, String gender,double sobuoi) {
+        super(name, age, gender);
         this.sobuoi = sobuoi;
     }
 
@@ -25,7 +21,14 @@ public class PartTIme extends Employee {
     }
 
     @Override
-    public double getSalary() {
+    public double Salary() {
         return sobuoi * 200000;
+    }
+
+    @Override
+    public String toString() {
+        return "PartTIme{" +
+                "sobuoi=" + sobuoi +
+                '}' + super.toString();
     }
 }

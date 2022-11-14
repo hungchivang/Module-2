@@ -1,20 +1,18 @@
 package luyentap.bai2;
 
-public class Employee {
+public abstract class Employee {
     private String name;
     private int age;
     private String gender;
 
-    private double salary;
 
     public Employee() {
     }
 
-    public Employee(String name, int age, String gender, double salary) {
+    public Employee(String name, int age, String gender) {
         this.name = name;
         this.age = age;
         this.gender = gender;
-        this.salary = salary;
     }
 
     public String getName() {
@@ -41,11 +39,14 @@ public class Employee {
         this.gender = gender;
     }
 
-    public double getSalary() {
-        return salary;
-    }
+    public abstract double Salary() ;
 
-    public void setSalary(double salary) {
-        this.salary = salary;
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                '}';
     }
 }
