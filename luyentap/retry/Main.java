@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        NhanVien[] nhanViens = new NhanVien[3];
-        nhanViens[0] = new NhanVien("hung", 20, "nam");
-        nhanViens[1] = new NhanVien("thanh", 23, "nam");
-        nhanViens[2] = new NhanVien("tuong", 25, "nu");
+//        NhanVien[] nhanViens = new NhanVien[3];
+//        nhanViens[0] = new NhanVien("hung", 20, "nam");
+//        nhanViens[1] = new NhanVien("thanh", 23, "nam");
+//        nhanViens[2] = new NhanVien("tuong", 25, "nu");
 
         ManegeNhanVien manegeNhanVien = new ManegeNhanVien();
         while (true) {
@@ -20,7 +20,7 @@ public class Main {
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1:
-                    nhanViens = manegeNhanVien.CreateNhanVien(nhanViens);
+//                    nhanViens = manegeNhanVien.CreateNhanVien(nhanViens);
                     break;
                 case 2:
 //                    System.out.println("nhap ten can sua");
@@ -30,10 +30,10 @@ public class Main {
                 case 3:
                     System.out.println("nhap ten can xoa");
                     String nameDelete = scanner.nextLine();
-                    nhanViens = manegeNhanVien.delete(nameDelete);
+//                    nhanViens = manegeNhanVien.delete(nameDelete);
                     break;
                 case 4:
-                    manegeNhanVien.show(nhanViens);
+//                    manegeNhanVien.show(nhanViens);
                     break;
                 default:
                     System.exit(0);
