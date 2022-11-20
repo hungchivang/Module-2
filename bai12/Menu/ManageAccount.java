@@ -20,7 +20,7 @@ public class ManageAccount {
         System.out.println("Nhap mat khau ");
         String password = scanner.nextLine();
         if (CheckUsername(username)) {
-            if (map.get(username).equals(password)) {
+            if (map.containsKey(username) && map.get(username).equals(password)) {
                 System.out.println("dang nhap thanh cong");
             } else {
                 System.out.println("tai khoan sai");
