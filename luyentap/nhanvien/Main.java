@@ -27,12 +27,12 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("nhap id muon sua");
-                    int idEdit = scanner.nextInt();
+                    int idEdit = Integer.parseInt(scanner.nextLine());
                     manageEmployee.Edit(idEdit);
                     break;
                 case 3:
                     System.out.println("nhap id muon xoa");
-                    int idDelete = scanner.nextInt();
+                    int idDelete = Integer.parseInt(scanner.nextLine());
                     manageEmployee.Delete(idDelete);
                     break;
                 case 4:

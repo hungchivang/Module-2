@@ -10,7 +10,18 @@ public class Employee {
     private  String  birthday;
     private String gender;
 
+    static int idNumber;
+
     public Employee() {
+    }
+
+    public Employee(String name, int age, double salary, String birthday, String gender) {
+        this.id = ++idNumber;
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+        this.birthday = birthday;
+        this.gender = gender;
     }
 
     public Employee(int id, String name, int age, double salary, String birthday, String gender) {
