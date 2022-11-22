@@ -26,13 +26,11 @@ public class Main {
                     manageEmployee.add();
                     break;
                 case 2:
-                    System.out.println("nhap id muon sua");
-                    int idEdit = Integer.parseInt(scanner.nextLine());
+                    int idEdit = manageEmployee.validateID();
                     manageEmployee.Edit(idEdit);
                     break;
                 case 3:
-                    System.out.println("nhap id muon xoa");
-                    int idDelete = Integer.parseInt(scanner.nextLine());
+                    int idDelete = manageEmployee.validateID();
                     manageEmployee.Delete(idDelete);
                     break;
                 case 4:
