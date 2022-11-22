@@ -1,11 +1,12 @@
 package luyentap.nhanvien;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
 
 public class Main {
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args){
         ManageEmployee manageEmployee = new ManageEmployee();
 
         while (true){
@@ -20,17 +21,28 @@ public class Main {
             System.out.println("7. Tim 3 nhan vien luong cao nhat");
             System.out.println("8. Tim nhan vien co sinh nhat trong thang");
             System.out.println("chon chuc nang :");
-            int choice = parseInt(scanner.nextLine());
+            int choice;
+            do{
+                try{
+                    choice = parseInt(scanner.nextLine());
+                    break;
+                }catch (InputMismatchException | NumberFormatException e){
+                    System.out.println("phai nhap so");
+                }
+            }while (true);
+
             switch (choice){
                 case 1:
                     manageEmployee.add();
                     break;
                 case 2:
-                    int idEdit = manageEmployee.validateID();
+                    System.out.println("Nhap id can sua");
+                    int idEdit = manageEmployee.validateInt();
                     manageEmployee.Edit(idEdit);
                     break;
                 case 3:
-                    int idDelete = manageEmployee.validateID();
+                    System.out.println("Nhap id can sua");
+                    int idDelete = manageEmployee.validateInt();
                     manageEmployee.Delete(idDelete);
                     break;
                 case 4:
@@ -51,7 +63,7 @@ public class Main {
                     manageEmployee.SearchBirthDay();
                     break;
                 default:
-                    System.exit(0);
+                    System.out.println("yeu cau chon lai");
             }
         }
     }

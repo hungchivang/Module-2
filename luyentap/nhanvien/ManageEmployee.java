@@ -1,7 +1,11 @@
 package luyentap.nhanvien;
 
+import javax.naming.PartialResultException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
+
+import static java.lang.Integer.parseInt;
 
 public class ManageEmployee {
     Scanner scanner = new Scanner(System.in);
@@ -16,47 +20,32 @@ public class ManageEmployee {
     public Employee CreateEmployee() {
         System.out.println("Nhap ten");
         String name = scanner.nextLine();
+        System.out.println("Nhap tuoi");
         int age = validateAge();
-        double salary = validateSalary();
-        System.out.println("Nhap ngay sinh (dd/MM/yyyy)");
-        String birthday = scanner.nextLine();
-        System.out.println("Nhap gioi tinh");
-        String gender = scanner.nextLine();
+        System.out.println("Nhap luong co ban");
+        double salary = validateInt();
+        System.out.println("nhap ngay sinh");
+        int date = validateInt();
+        System.out.println("nhap thang sinh");
+        int month = validateMonth();
+        System.out.println("nhap nam sinh");
+        int year = validateInt();
 
+        do {
+            try {
+                if (date > numberDate(month, year))
+                    System.out.println("ngay chua chinh xac");
+                break;
+            } catch (InputMismatchException | NumberFormatException e) {
+                System.out.println("phai nhap so");
+            }
+        } while (true);
+
+        LocalDate birthday = LocalDate.of(year, month, date);
+
+        System.out.println("nhap gioi tinh");
+        String gender = validateGender();
         return new Employee(name, age, salary, birthday, gender);
-    }
-
-    public double validateSalary() {
-        try {
-            System.out.println("Nhap luong co ban");
-            double salary = Double.parseDouble(scanner.nextLine());
-            if (salary > 0) return salary;
-            throw new Exception();
-        } catch (Exception e) {
-            return validateSalary();
-        }
-    }
-
-    public int validateAge(){
-        try {
-            System.out.println("Nhap tuoi");
-            int age = Integer.parseInt(scanner.nextLine());
-            if (age > 0) return age;
-            throw new Exception();
-        } catch (Exception e) {
-            return validateAge();
-        }
-    }
-
-    public int validateID(){
-        try {
-            System.out.println("Nhap id can sua");
-            int id = Integer.parseInt(scanner.nextLine());
-            if (id > 0) return id;
-            throw new Exception();
-        } catch (Exception e) {
-            return validateID();
-        }
     }
 
     public void add() {
@@ -90,16 +79,21 @@ public class ManageEmployee {
                         listEmployee.set(index, new Employee(id, name, listEmployee.get(index).getAge(), listEmployee.get(index).getSalary(), listEmployee.get(index).getBirthday(), listEmployee.get(index).getGender()));
                         break;
                     case 2:
-                        int age = validateAge();
+                        int age = validateInt();
                         listEmployee.set(index, new Employee(id, listEmployee.get(index).getName(), age, listEmployee.get(index).getSalary(), listEmployee.get(index).getBirthday(), listEmployee.get(index).getGender()));
                         break;
                     case 3:
-                        double salary = validateSalary();
+                        double salary = validateInt();
                         listEmployee.set(index, new Employee(id, listEmployee.get(index).getName(), listEmployee.get(index).getAge(), salary, listEmployee.get(index).getBirthday(), listEmployee.get(index).getGender()));
                         break;
                     case 4:
-                        System.out.println("Nhap ngay sinh can sua");
-                        String birthday = scanner.nextLine();
+                        System.out.println("nhap ngay sinh can sua");
+                        int date = validateInt();
+                        System.out.println("nhap thang sinh can sua");
+                        int month = validateInt();
+                        System.out.println("nhap nam sinh can sua");
+                        int year = validateInt();
+                        LocalDate birthday = LocalDate.of(year, month, date);
                         listEmployee.set(index, new Employee(id, listEmployee.get(index).getName(), listEmployee.get(index).getAge(), listEmployee.get(index).getSalary(), birthday, listEmployee.get(index).getGender()));
                         break;
                     case 5:
@@ -162,18 +156,25 @@ public class ManageEmployee {
     }
 
 
-    public int findMonthOfBirth() throws Exception {
-        Calendar calendar = Calendar.getInstance();
+//    public int findMonthOfBirth() throws Exception {
+//        Calendar calendar = Calendar.getInstance();
+//        for (int i = 0; i < listEmployee.size(); i++) {
+//            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(listEmployee.get(i).getBirthday());
+//            if (date.getMonth() == calendar.get(Calendar.MONTH)) {
+//                return i;
+//            }
+//        }
+//        return -1;
+//    }
+
+    public int findMonthOfBirth() {
         for (int i = 0; i < listEmployee.size(); i++) {
-            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(listEmployee.get(i).getBirthday());
-            if (date.getMonth() == calendar.get(Calendar.MONTH)) {
-                return i;
-            }
+            if (listEmployee.get(i).getBirthday().getMonthValue() == LocalDate.now().getMonthValue()) return i;
         }
         return -1;
     }
 
-    public void SearchBirthDay() throws Exception {
+    public void SearchBirthDay() {
         int index = findMonthOfBirth();
         if (index >= 0) {
             System.out.println("nhan vien co sinh nhat trong thang la :");
@@ -183,7 +184,94 @@ public class ManageEmployee {
         }
     }
 
+    // Validate
+    public boolean yearPrime(int year) {
+        if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+            return true;
+        }
+        return false;
+    }
 
+    public int numberDate(int month, int year) {
+        switch (month) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                return 31;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                return 30;
+            case 2:
+                if (yearPrime(year)) {
+                    return 29;
+                }
+                return 28;
+        }
+        return -1;
+    }
+
+    public int validateBirthday() {
+        System.out.println("nhap ngay sinh");
+        int date = Integer.parseInt(scanner.nextLine());
+        try {
+            if (date > 0 && date <= numberDate(validateMonth(), CreateEmployee().getBirthday().getYear()))
+                return date;
+            throw new Exception();
+        } catch (Exception e) {
+            System.out.println("Phai nhap dung ngay");
+            return validateBirthday();
+        }
+    }
+
+    public int validateMonth() {
+        try {
+            int month = Integer.parseInt(scanner.nextLine());
+            if (month > 0 && month <= 12) return month;
+            throw new Exception();
+        } catch (Exception e) {
+            System.out.println("Phai nhap thang ( 1 -> 12 )");
+            return validateMonth();
+        }
+    }
+
+    public String validateGender() {
+        try {
+            String gender = scanner.nextLine();
+            if (Objects.equals(gender, "nam") || Objects.equals(gender, "nu")) return gender;
+            throw new Exception();
+        } catch (Exception e) {
+            System.out.println("Phai nhap :nam or nu");
+            return validateGender();
+        }
+    }
+
+    public int validateAge() {
+        try {
+            int age = Integer.parseInt(scanner.nextLine());
+            if (age >= 18 && age <= 65) return age;
+            throw new Exception();
+        } catch (Exception e) {
+            System.out.println("Phai nhap do tuoi ( 18 -> 65 )");
+            return validateAge();
+        }
+    }
+
+    public int validateInt() {
+        try {
+            int number = Integer.parseInt(scanner.nextLine());
+            if (number > 0) return number;
+            throw new Exception();
+        } catch (Exception e) {
+            System.out.println("Phai nhap so ( > 0)");
+            return validateInt();
+        }
+    }
 }
 
 

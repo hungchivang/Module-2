@@ -1,13 +1,15 @@
 package luyentap.nhanvien;
 
 
+import java.time.LocalDate;
+
 public class Employee {
 
     private int id;
     private String name;
     private int age;
     private double salary;
-    private  String  birthday;
+    private LocalDate birthday;
     private String gender;
 
     static int idNumber;
@@ -15,7 +17,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, int age, double salary, String birthday, String gender) {
+    public Employee(String name, int age, double salary, LocalDate birthday, String gender) {
         this.id = ++idNumber;
         this.name = name;
         this.age = age;
@@ -24,7 +26,7 @@ public class Employee {
         this.gender = gender;
     }
 
-    public Employee(int id, String name, int age, double salary, String birthday, String gender) {
+    public Employee(int id, String name, int age, double salary, LocalDate birthday, String gender) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -65,11 +67,11 @@ public class Employee {
         this.salary = salary;
     }
 
-    public String getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
