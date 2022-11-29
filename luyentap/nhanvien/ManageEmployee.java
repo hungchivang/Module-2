@@ -1,11 +1,8 @@
 package luyentap.nhanvien;
 
-import javax.naming.PartialResultException;
-import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.*;
-
-import static java.lang.Integer.parseInt;
 
 public class ManageEmployee {
     Scanner scanner = new Scanner(System.in);
@@ -24,28 +21,30 @@ public class ManageEmployee {
         int age = validateAge();
         System.out.println("Nhap luong co ban");
         double salary = validateInt();
-        System.out.println("nhap ngay sinh");
-        int date = validateInt();
-        System.out.println("nhap thang sinh");
-        int month = validateMonth();
         System.out.println("nhap nam sinh");
         int year = validateInt();
-
-        do {
-            try {
-                if (date > numberDate(month, year))
-                    System.out.println("ngay chua chinh xac");
-                break;
-            } catch (InputMismatchException | NumberFormatException e) {
-                System.out.println("phai nhap so");
-            }
-        } while (true);
+        System.out.println("nhap thang sinh");
+        int month = validateMonth();
+        System.out.println("nhap ngay sinh");
+        int date = validateBirthday(year,month);
 
         LocalDate birthday = LocalDate.of(year, month, date);
 
         System.out.println("nhap gioi tinh");
         String gender = validateGender();
         return new Employee(name, age, salary, birthday, gender);
+    }
+
+    public int validateBirthday(int year, int month) {
+        int date = Integer.parseInt(scanner.nextLine());
+        try {
+            if (date > 0 && date <= numberDate(month,year))
+                return date;
+            throw new Exception();
+        } catch (Exception e) {
+            System.out.println("Phai nhap ngay > 0 va <= " + numberDate(month,year));
+            return validateBirthday(year,month);
+        }
     }
 
     public void add() {
@@ -126,19 +125,12 @@ public class ManageEmployee {
         System.out.println(listEmployee);
     }
 
-    public int CheckName(String name) {
-        for (int i = 0; i < listEmployee.size(); i++) {
-            if (name.equals(listEmployee.get(i).getName())) return i;
-        }
-        return -1;
-    }
-
     public void SearchName(String name) {
-        int index = CheckName(name);
-        if (index >= 0) {
-            System.out.println(listEmployee.get(index).toString());
-        } else {
-            System.out.println("khong co ten nhan vien nay ");
+        for (int i = 0; i < listEmployee.size(); i++) {
+            if (listEmployee.get(i).getName().contains(name)) {
+                System.out.println("Danh sach tim kiem");
+                System.out.println(listEmployee.get(i).toString());
+            }
         }
     }
 
@@ -216,18 +208,7 @@ public class ManageEmployee {
         return -1;
     }
 
-    public int validateBirthday() {
-        System.out.println("nhap ngay sinh");
-        int date = Integer.parseInt(scanner.nextLine());
-        try {
-            if (date > 0 && date <= numberDate(validateMonth(), CreateEmployee().getBirthday().getYear()))
-                return date;
-            throw new Exception();
-        } catch (Exception e) {
-            System.out.println("Phai nhap dung ngay");
-            return validateBirthday();
-        }
-    }
+
 
     public int validateMonth() {
         try {
